@@ -66,7 +66,7 @@ app.frame('/', (c) => {
                     justifyContent='center'
                 >
                     <Text color='white' align='center' size='32'>
-                        What's in your wallet?
+                        What&apos;s in your wallet?
                     </Text>
                     <Spacer size='24' />
                     <Text color='white' align='center' size='20'>
@@ -174,7 +174,7 @@ function renderPortfolio(c: any, state: any, page: number = 0) {
                 <Button action={`/stats/${address}`} value='stats'>
                     Stats
                 </Button>
-            ), //<Button.Link href={INTENT_SHARE_FRAME}>Share Frame</Button.Link>,
+            ),
         ].filter(Boolean),
     });
 }
@@ -237,7 +237,6 @@ app.frame('/portfolio/:page', async (c) => {
 
 app.frame('/stats/:address', async (c) => {
     const address = c.req.param('address');
-    console.log('stats address: ', address);
     const vestingContractAddress = await getVestingContractAddress(address);
     const response = await getUserOwnedFanTokens(
         vestingContractAddress?.tokenLockWallets[0]?.address
@@ -259,7 +258,6 @@ app.frame('/stats/:address', async (c) => {
         0
     );
 
-    // Create the INTENT_SHARE_FRAME URL dynamically
     const castUrl = 'https://warpcast.com/~/compose';
     const castText = 'I checked my Moxie Fan Token portfolio. Check yours out here!';
     const embedUrl = `${BASE_URL}/api/stats/${address}`;
