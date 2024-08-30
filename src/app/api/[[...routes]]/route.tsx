@@ -1,18 +1,13 @@
 /** @jsxImportSource frog/jsx */
-import { Button, Frog, TextInput } from 'frog';
-import { handle, getFrameMetadata } from 'frog/next';
+import { Button, Frog } from 'frog';
+import { handle } from 'frog/next';
 import { neynar as neynarHub } from 'frog/hubs';
 import { neynar as neynarMiddleware } from 'frog/middlewares';
-import type { Metadata } from 'next';
 import { ethers } from 'ethers';
-import dotenv from 'dotenv';
-import { Box, Column, Text, Spacer, vars } from '@/app/utils/ui';
-import { getUserOwnedFanTokens } from '../gql/getUserOwnedFanTokens';
-import { getVestingContractAddress } from '../gql/getVestingContractAddress';
-
-dotenv.config();
-
-const { NEYNAR_API_KEY, BASE_URL } = process.env;
+import { Box, Text, Spacer, vars } from '@/app/utils/ui';
+import { getUserOwnedFanTokens } from '@/app/api/gql/getUserOwnedFanTokens';
+import { getVestingContractAddress } from '@/app/api/gql/getVestingContractAddress';
+import { NEYNAR_API_KEY, BASE_URL } from '@/app/utils/constants';
 
 const INTENT_FOLLOW_ME = 'https://warpcast.com/nickysap';
 
@@ -33,13 +28,13 @@ const app = new Frog<{ State: State }>({
     initialState: {
         portfolio: [],
     },
-    hub: neynarHub({ apiKey: NEYNAR_API_KEY as string }),
+    hub: neynarHub({ apiKey: NEYNAR_API_KEY }),
     verify: process.env.NODE_ENV === 'production',
-    origin: BASE_URL as string,
+    origin: BASE_URL,
     headers: { 'cache-control': 'max-age=0' },
 }).use(
     neynarMiddleware({
-        apiKey: NEYNAR_API_KEY as string,
+        apiKey: NEYNAR_API_KEY,
         features: ['interactor', 'cast'],
     })
 );
